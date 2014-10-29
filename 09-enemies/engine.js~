@@ -70,7 +70,7 @@ var Game = new function() {
 	}
 
 	// Ejecutar dentro de 30 ms
-	setTimeout(Game.loop,10);
+	setTimeout(Game.loop,30);
     };
     
     // Para cambiar el panel activo en el juego.
