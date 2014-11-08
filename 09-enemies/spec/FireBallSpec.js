@@ -13,7 +13,7 @@ describe("clase FireBall", function() {
 	    expect(ctx).toBeDefined();
 	
         SpriteSheet.map = {
-            fireb: { sx: 0, sy: 64, w: 64, h: 64, frames: 12 }
+            explosion: { sx: 0, sy: 64, w: 64, h: 64, frames: 12 }
         }
         x=100;
         y=200;
@@ -56,7 +56,7 @@ describe("clase FireBall", function() {
     it("draw", function() {
         spyOn(SpriteSheet, 'draw');
         fireb.draw(ctx);
-        expect(SpriteSheet.draw).toHaveBeenCalledWith(ctx, 'fireb', fireb.x,        fireb.y, 1, 30, 30);
+        expect(SpriteSheet.draw).toHaveBeenCalledWith(ctx, 'explosion', fireb.x,        fireb.y, 1, 30, 30);
     });
 
 });

@@ -2,7 +2,7 @@ var sprites = {
     ship: { sx: 0, sy: 0, w: 37, h: 42, frames: 1 },
     missile: { sx: 0, sy: 30, w: 2, h: 10, frames: 1 },
     enemy_purple: { sx: 37, sy: 0, w: 42, h: 43, frames: 1 },
-    fireb: { sx: 0, sy: 64, w: 64, h: 64, frames: 12 }
+    explosion: { sx: 0, sy: 64, w: 64, h: 64, frames: 12 }
 };
 
 var enemies = {
@@ -184,7 +184,7 @@ PlayerMissile.prototype.step = function(dt)  {
 
 
 var FireBall = function(x, y, factor) {
-    this.setup('fireb',{ vy: -3000 , vx: 600 * factor, frame: 1, dw:30, dh: 30 });
+    this.setup('explosion',{ vy: -3000 , vx: 600 * factor, frame: 1, dw:30, dh: 30 });
     this.x = x - this.w/2;
     this.y = y - this.h/2;
 };
