@@ -15,7 +15,6 @@
   </div>
   <script src='engine.js'></script>
   <script src='game.js'></script>
-  <script src='lib/underscore-min.js'></script>
 </body>
 </html>
 

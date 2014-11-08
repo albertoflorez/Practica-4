@@ -56,7 +56,7 @@ describe("clase PlayerMissile", function(){
     it("step", function(){
 		var misil = new PlayerMissile(10,10);
 		var b = {remove: function(obj) {},
-                 collide: function(obj,type) {} };
+                 collide: function(obj,obj) {} };
 		misil.board=b;
 		spyOn(b, "remove"); 
 		misil.step(1.0); 

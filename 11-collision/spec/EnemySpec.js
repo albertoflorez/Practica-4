@@ -61,3 +61,70 @@
 
 */
 
+describe("clase Enemy", function() {
+
+    var canvas, ctx;
+
+    beforeEach(function(){
+
+        loadFixtures('index.html');
+
+	    canvas = $('#game')[0];
+	    expect(canvas).toExist();
+
+	    ctx = canvas.getContext('2d');
+	    expect(ctx).toBeDefined();
+
+        SpriteSheet.map ={ enemy_purple: { sx: 37, sy: 0, w: 42, h: 43, frames: 1 }};
+        e = new Enemy({ x: 100, y: -50, sprite: 'enemy_purple', B: 100, C: 2 , E: 100 });
+        e.board = new GameBoard(); 
+        e.board.remove = function(obj) {};
+	
+	    oldGame = Game;
+    });
+
+    afterEach(function(){
+	    Game = oldGame;
+    }); 
+
+    it("step", function() { 
+        x = 100;
+        y = -50;
+        
+        expect(e.x).toBe(x);
+        expect(e.y).toBe(y);
+        e.step(0.1);
+        spyOn(e.board, 'remove'); 
+       
+        x += e.vx*0.1;
+        y += e.vy*0.1;
+        expect(e.x).toBe(x); 
+        expect(e.y).toBe(y);
+        expect(e.board.remove).not.toHaveBeenCalled();
+        e.step(100);//para que se haya salido del tablero
+        expect(e.board.remove).toHaveBeenCalled();
+    });
+
+    it("draw", function() {  
+        SpriteSheet = { 
+          draw: function(ctx, sprite, x, y) {}
+        };
+
+        spyOn(SpriteSheet, 'draw');
+        e.draw(ctx);
+        expect(SpriteSheet.draw).toHaveBeenCalled();
+    });
+
+});
+
+
+
+
+
+
+
+
+
+
+
+

@@ -123,7 +123,7 @@ var Starfield = function(speed,opacity,numStars,clear) {
 // poder ser dibujada desde el bucle principal del juego
 var PlayerShip = function() { 
     this.setup('ship', { vx: 0, frame: 0, reloadTime: 0.25, maxVel: 200 });
-
+    this.up=false;
     this.reload = this.reloadTime;
     this.x = Game.width/2 - this.w / 2;
     this.y = Game.height - 10 - this.h;
@@ -141,15 +141,29 @@ var PlayerShip = function() {
 	}
 
 	this.reload-=dt;
-	if(Game.keys['fire'] && this.reload < 0) {
+	if(!Game.keys['fire']) this.up = true;
+	if(this.up && Game.keys['fire'] && this.reload < 0) {
+    //if(Game.keys['fire'] && this.reload < 0) {
 	    // Esta pulsada la tecla de disparo y ya ha pasado el tiempo reload
-	    Game.keys['fire'] = false;
+	    Game.keys['fire'] = true;
+        this.up=false;
 	    this.reload = this.reloadTime;
 
 	    // Se añaden al gameboard 2 misiles 
 	    this.board.add(new PlayerMissile(this.x,this.y+this.h/2));
 	    this.board.add(new PlayerMissile(this.x+this.w,this.y+this.h/2));
 	}
+
+    if (Game.keys['fireball_right'] && this.reload < 0) {
+        this.reload = this.reloadTime;
+        this.board.add(new FireBall(this.x+1.5*this.w, this.y + this.h / 2, 1));
+    }
+
+    if (Game.keys['fireball_left'] && this.reload < 0) {
+        this.reload = this.reloadTime;
+        this.board.add(new FireBall(this.x+this.w/2, this.y + this.h / 2, -1));
+    }
+
     }
 }
 
@@ -176,14 +190,32 @@ PlayerMissile.prototype.step = function(dt)  {
     this.y += this.vy * dt;
     var collision = this.board.collide(this,OBJECT_ENEMY);
     if(collision) {
-	collision.hit(this.damage);
-	this.board.remove(this);
+	    collision.hit(this.damage);
+	    this.board.remove(this);
     } else if(this.y < -this.h) { 
-	this.board.remove(this); 
+	    this.board.remove(this); 
     }
 };
 
 
+var FireBall = function(x, y, factor) {
+    this.setup('explosion',{ vy: -300 , vx: 40 * factor, frame: 1, dw:30, dh: 30, damage: 50 });
+    this.x = x - this.w/2;
+    this.y = y - this.h/2;
+};
+
+FireBall.prototype = new Sprite();
+
+FireBall.prototype.step = function(dt) { 
+    this.x += this.vx * dt;
+    this.y += this.vy * dt;
+    this.vy += 10;
+    var collision = this.board.collide(this, OBJECT_ENEMY);  
+    if (collision) { 
+        collision.hit(this.damage);
+    }else if(this.y > Game.heigth || this.y < -this.h || this.x > Game.width) { this.board.remove(this); }
+
+}
 
 
 // Constructor para las naves enemigas. Un enemigo se define mediante
@@ -260,8 +292,9 @@ Enemy.prototype.step = function(dt) {
 
     var collision = this.board.collide(this,OBJECT_PLAYER);
     if(collision) {
-	collision.hit(this.damage);
-	this.board.remove(this);
+        this.board.add(new Explosion(this.x + this.w / 2, this.y + this.h / 2));
+	    collision.hit(this.damage);
+	    this.board.remove(this);
     }
 
     if(this.y > Game.height ||

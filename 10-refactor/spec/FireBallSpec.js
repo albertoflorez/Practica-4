@@ -40,8 +40,8 @@ describe("clase FireBall", function() {
         expect(fireb.y).toBe(y); 
 
         dt = 25;
-        x += 600*dt/4; 
-        y += -3000*dt/4;
+        x += 40*dt; 
+        y += -300*dt;
 
         fireb.step(dt);
         expect(fireb.x).toBe(x);

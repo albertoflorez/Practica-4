@@ -28,7 +28,6 @@
   <script type="text/javascript" src="spec/PlayerMissileSpec.js"></script>
   <script type="text/javascript" src="spec/EnemySpec.js"></script>
   <script type="text/javascript" src="spec/FireBallSpec.js"></script>
-  <script type="text/javascript" src="spec/CollisionsSpec.js"></script>
 
 
   <script type="text/javascript">

@@ -184,7 +184,7 @@ PlayerMissile.prototype.step = function(dt)  {
 
 
 var FireBall = function(x, y, factor) {
-    this.setup('explosion',{ vy: -3000 , vx: 600 * factor, frame: 1, dw:30, dh: 30 });
+    this.setup('explosion',{ vy: -300 , vx: 40 * factor, frame: 1, dw:30, dh: 30 });
     this.x = x - this.w/2;
     this.y = y - this.h/2;
 };
@@ -192,9 +192,9 @@ var FireBall = function(x, y, factor) {
 FireBall.prototype = new Sprite();
 
 FireBall.prototype.step = function(dt) { 
-    this.x += this.vx * dt/4;
-    this.y += this.vy * dt/4;
-    this.vy += 300;
+    this.x += this.vx * dt;
+    this.y += this.vy * dt;
+    this.vy += 10;
     if(this.y > Game.heigth || this.y < -this.h || this.x > Game.width) { this.board.remove(this); }
 
 }
