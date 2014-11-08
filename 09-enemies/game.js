@@ -4,7 +4,8 @@ var sprites = {
     enemy_purple: { sx: 37, sy: 0, w: 42, h: 43, frames: 1 },
     enemy_bee: { sx: 79, sy: 0, w: 37, h: 43, frames: 1 },
     enemy_ship: { sx: 116, sy: 0, w: 42, h: 43, frames: 1 },
-    enemy_circle: { sx: 158, sy: 0, w: 32, h: 33, frames: 1 }
+    enemy_circle: { sx: 158, sy: 0, w: 32, h: 33, frames: 1 },
+    fireb: { sx: 0, sy: 64, w: 64, h: 64, frames: 12 }
 };
 
 
@@ -156,6 +157,17 @@ var PlayerShip = function() {
 	    this.board.add(new PlayerMissile(this.x,this.y+this.h/2));
 	    this.board.add(new PlayerMissile(this.x+this.w,this.y+this.h/2));
 	}
+
+    if (Game.keys['fireball_right'] && this.reload < 0) {
+        this.reload = this.reloadTime;
+        this.board.add(new FireBall(this.x+1.5*this.w, this.y + this.h / 2, 1));
+    }
+
+    if (Game.keys['fireball_left'] && this.reload < 0) {
+        this.reload = this.reloadTime;
+        this.board.add(new FireBall(this.x+this.w/2, this.y + this.h / 2, -1));
+    }
+
     }
 
     this.draw = function(ctx) {
@@ -185,7 +197,28 @@ PlayerMissile.prototype.draw = function(ctx)  {
     SpriteSheet.draw(ctx,'missile',this.x,this.y);
 };
 
+var FireBall = function(x, y, factor) {
+    this.w = SpriteSheet.map['fireb'].w; //coger el frame 1
+    this.h = SpriteSheet.map['fireb'].h;
 
+    this.x = x - this.w/2;
+    this.y = y - this.h/2; 
+
+    this.vy = -3000;
+    this.vx = 600 * factor;
+
+    FireBall.prototype.step = function(dt) { 
+        this.x += this.vx * dt/4;
+        this.y += this.vy * dt/4;
+        this.vy += 300;
+        if(this.y > Game.heigth || this.y < -this.h || this.x > Game.width) { this.board.remove(this); }
+
+    }
+
+    FireBall.prototype.draw = function(ctx) {
+        SpriteSheet.draw(ctx, 'fireb', this.x, this.y, 1, 30, 30);
+    }
+};
 
 // Constructor para las naves enemigas. Un enemigo se define mediante
 // un conjunto de propiedades provenientes de 3 sitios distintos, que
@@ -282,7 +315,6 @@ Enemy.prototype.step = function(dt) {
 Enemy.prototype.draw = function(ctx) {
     SpriteSheet.draw(ctx,this.sprite,this.x,this.y);
 }
-
 
 
 $(function() {

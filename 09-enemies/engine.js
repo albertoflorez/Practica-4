@@ -32,7 +32,7 @@ var Game = new function() {
     };
 
     // Gestión de la entrada (teclas para izda/derecha y disparo)
-    var KEY_CODES = { 37:'left', 39:'right', 32 :'fire' };
+    var KEY_CODES = { 37:'left', 39:'right', 32 :'fire', 66: 'fireball_left', 78: 'fireball_right' };
     this.keys = {};
 
     this.setupInput = function() {
@@ -108,15 +108,17 @@ var SpriteSheet = new function() {
     //  en this.map, x e y en las que dibujarlo, y opcionalmente,
     //  frame para seleccionar el frame de un sprite que tenga varios
     //  como la explosion
-    this.draw = function(ctx,sprite,x,y,frame) {
+    this.draw = function(ctx,sprite,x,y,frame, dw, dh) {
 	var s = this.map[sprite];
 	if(!frame) frame = 0;
+    if(!dw) dw = s.w;
+    if(!dh) dh = s.h;
 	ctx.drawImage(this.image,
                       s.sx + frame * s.w, 
                       s.sy, 
                       s.w, s.h, 
                       Math.floor(x), Math.floor(y),
-                      s.w, s.h);
+                      dw, dh);
     };
 }
 
