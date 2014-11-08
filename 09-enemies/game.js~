@@ -206,6 +206,7 @@ var FireBall = function(x, y, factor) {
 
     this.vy = -3000;
     this.vx = 600 * factor;
+};
 
     FireBall.prototype.step = function(dt) { 
         this.x += this.vx * dt/4;
@@ -218,7 +219,7 @@ var FireBall = function(x, y, factor) {
     FireBall.prototype.draw = function(ctx) {
         SpriteSheet.draw(ctx, 'fireb', this.x, this.y, 1, 30, 30);
     }
-};
+
 
 // Constructor para las naves enemigas. Un enemigo se define mediante
 // un conjunto de propiedades provenientes de 3 sitios distintos, que
